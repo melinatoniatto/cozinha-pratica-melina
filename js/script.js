@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(mobileStyles);
 
-    // Lazy loading para imagens
+    // Lazy loading para imagens (corrigido para evitar imagens invisíveis)
     const images = document.querySelectorAll('img[src]');
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -138,14 +138,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const img = entry.target;
                 img.style.opacity = '0';
                 img.style.transition = 'opacity 0.3s ease';
-              if (img.complete && img.naturalHeight !== 0) {
-                img.style.opacity = '1';
+
+                // CORREÇÃO: se a imagem já está carregada, mostra imediatamente
+                if (img.complete && img.naturalHeight !== 0) {
+                    img.style.opacity = '1';
                 } else {
-                img.onload = () => {
-                img.style.opacity = '1';
-    };
-}
-                
+                    img.onload = () => {
+                        img.style.opacity = '1';
+                    };
+                }
+
                 observer.unobserve(img);
             }
         });
@@ -308,4 +310,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('🍳 Cozinha Prática da Melina - Site carregado com sucesso!');
 });
-
