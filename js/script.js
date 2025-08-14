@@ -138,10 +138,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const img = entry.target;
                 img.style.opacity = '0';
                 img.style.transition = 'opacity 0.3s ease';
-                
+              if (img.complete && img.naturalHeight !== 0) {
+                img.style.opacity = '1';
+                } else {
                 img.onload = () => {
-                    img.style.opacity = '1';
-                };
+                img.style.opacity = '1';
+    };
+}
                 
                 observer.unobserve(img);
             }
